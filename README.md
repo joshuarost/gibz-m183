@@ -1,3 +1,2 @@
 # m183
-
-School project
+**A Josh Rost school project**
