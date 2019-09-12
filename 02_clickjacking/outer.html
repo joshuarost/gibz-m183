@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AXA Login</title>
+
+    <link rel="stylesheet" href="resources/styles/outer.css">
+</head>
+<body>
+
+<div id="page-content">
+    <form>
+        <input type="text" id="username" placeholder="hans.muster@axa.ch">
+        <span class="spacer">
+        <br />
+        <input type="password" id="password" placeholder="*******">
+        <br />
+        <button type="submit" id="submit">WEITER</button>
+    </form>
+</div>
+
+<input id="opacity-slider" style="visibility: hidden;" type="range" min="0.01" max="1.00" step="0.01" value="0"
+       oninput="changeOpacity(this.value)"/>
+
+<script type="text/javascript">
+
+    function changeOpacity(value) {
+        const frame = document.getElementById('gibz-frame');
+        frame.style.opacity = value;
+
+        const pageContent = document.getElementById('page-content');
+        pageContent.style.opacity = (1 - value);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        'use strict';
+
+        let detectedShiftKeys = 0;
+        let lastKeyTime = Date.now();
+
+        document.addEventListener('keydown', event => {
+            if (!!event.shiftKey) {
+                const currentTime = Date.now();
+                if (currentTime - lastKeyTime > 250) {
+                    detectedShiftKeys = 0;
+                }
+
+                detectedShiftKeys++;
+                lastKeyTime = currentTime;
+
+                if (detectedShiftKeys >= 3) {
+                    const slider = document.getElementById('opacity-slider');
+                    slider.style.visibility = slider.style.visibility === 'visible' ? 'hidden' : 'visible';
+                }
+            }
+        });
+    });
+</script>
+
+<iframe id="axa-frame" src="https://sso.services.axa.com/myAXAIdP/"></iframe>
+
+</body>
+</html>
