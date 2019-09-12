@@ -1,0 +1,59 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+iframe {
+    position: fixed;
+    border: none;
+    width: 100%;
+    height: 100%
+}
+
+/*form {*/
+    /*position: relative;*/
+    /*top: 294px;*/
+    /*left: 723px;*/
+/*}*/
+
+input {
+    font-size: x-small;
+}
+
+button {
+    background-color: Silver;
+    font-family: Arial;
+    font-size: X-Small;
+}
+
+span {
+    display: block;
+}
+
+.stamm_nr {
+    width: 121px;
+}
+
+.span_input {
+    height: 3px;
+}
+
+.span_button {
+    height: 9px;
+}
+
+.fid_1 {
+    width: 20px;
+}
+
+.fid_2 {
+    width: 36px;
+    margin-left: 5px;
+}
+
+.fid_3 {
+    width: 36px;
+    margin-left: 6px;
+}
