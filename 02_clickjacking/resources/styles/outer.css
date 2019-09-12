@@ -26,60 +26,46 @@ iframe{
 }
 #page-content {
     margin: auto;
-    width: 440px;
-    margin-top: 240px;
+    width: 758px;
+    text-align: left;
+    margin-top: 288px;
 }
 
 form {
-    margin-left: -6px;
+    margin-left: 100px;
 }
 
-input {
-    height: 3.125rem;
-    background: #fff;
-    -webkit-appearance: none;
-    border: 1px solid #ccc;
-    border-radius: 0;
-    color: #333;
-    display: block;
-    padding-left: 13px;
-    padding-right: 13px;
-    width: calc(100% - 33px);
-}
-input:focus {
-    border-color: #00005b;
-    outline: none;
-}
-
-.spacer {
-    display: block;
-    height: 40px;
+input, button {
+    font-size: X-Small;
 }
 
 button {
-    font-weight: 600;
-    letter-spacing: .02em;
-    line-height: 1.5;
-    min-height: 50px;
-    padding-bottom: 11px;
-    padding-top: 11px;
-    border: 2px solid;
-    background: #f07662;
-    border-color: #f07662 #f07662 #ec4d33;
-    color: #fff;
-    overflow-wrap: break-word;
-    padding: 10px 30px;
-    position: relative;
-    text-decoration: none;
-    text-transform: uppercase;
-    vertical-align: middle;
-    word-wrap: break-word;
-    width: calc(100% - 4px);
+    background-color: Silver;
+    font-family: Arial;
 }
 
-#opacity-slider {
-    width: 80%;
-    position: absolute;
-    bottom: 100px;
-    left: 10%;
+span {
+    display: block;
+}
+
+.stamm_nr {
+    width: 121px;
+}
+
+.span_input {
+    height: 0px;
+}
+.span_button {
+    height: 9px;
+}
+.fid_1 {
+    width: 20px;
+}
+.fid_2 {
+    width: 36px;
+    margin-left: 5px;
+}
+.fid_3 {
+    width: 36px;
+    margin-left: 6px;
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AXA Login</title>
+    <title>Viacar Online Dispo</title>
 
     <link rel="stylesheet" href="resources/styles/outer.css">
 </head>
@@ -10,12 +10,15 @@
 
 <div id="page-content">
     <form>
-        <input type="text" id="username" placeholder="hans.muster@axa.ch">
-        <span class="spacer">
+        <input type="text" class="stamm_nr">
         <br />
-        <input type="password" id="password" placeholder="*******">
+        <!--<span class="span_input"></span>-->
+        <input type="text" class="fid_1">
+        <input type="text" class="fid_2">
+        <input type="text" class="fid_3">
         <br />
-        <button type="submit" id="submit">WEITER</button>
+        <!--<span class="span_button"></span>-->
+        <button>Login</button>
     </form>
 </div>
 
@@ -57,7 +60,7 @@
     });
 </script>
 
-<iframe id="axa-frame" src="https://sso.services.axa.com/myAXAIdP/"></iframe>
+<iframe src="https://www.viacar.ch/dispo/Login/LoginFzPruefung.aspx?Kanton=ZH"></iframe>
 
 </body>
 </html>
