@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+gunicorn = "*"
+flask = "*"
+flask-cors = "*"
+flask-restplus = "*"
+flask-login = "*"
+onetimepass = "*"
+pyqrcode = "*"
+
+[requires]
+python_version = "3.5"
+
+[scripts]
+serve = "gunicorn --bind 0.0.0.0:8000 'app:create_app()' --reload"
