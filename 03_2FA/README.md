@@ -21,5 +21,5 @@ make run
 ```
 
 ## Login data
-| agent-id | gipe |
-| password | snowden |
+- agent-id: gipe
+- password: snowden
