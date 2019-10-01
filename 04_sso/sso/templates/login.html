@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block header %}
+<div>
+    <img src="{{ url_for('static', filename='microschrott_logo.svg') }}"/>
+    <h1>Microschrott<h1>
+{% endblock %}
+
+{% block content %}
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+{% endblock %}

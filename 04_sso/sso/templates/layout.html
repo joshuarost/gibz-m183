@@ -1,0 +1,31 @@
+<!doctype html>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<meta name="google-signin-client_id" content="824399620081-0spurelgnenff5ncriber3np5ui0453i.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript">
+    function onSignIn(googleUser) {
+        let idToken = googleUser.getAuthResponse().id_token;
+
+        let profile = googleUser.getBasicProfile();
+        console.log(profile.getId());
+        console.log(profile.getName());
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:8000/sso');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            console.log('Signed in as :' + xhr.responseText);
+        }
+        xhr.send('idtoken=' + idToken);
+    }
+</script>
+<title>Microschrott</title>
+<header>
+{% block header %}{% endblock %}
+</header>
+{% for message in get_flashed_messages() %}
+<div class="flash">{{ message }}</div>
+{% endfor %}
+{% block content %}
+
+{% endblock %}
