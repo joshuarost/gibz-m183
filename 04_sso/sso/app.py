@@ -1,4 +1,5 @@
 from flask import Flask, Blueprint, current_app
+from flask_cors import CORS
 from flask_login import LoginManager
 
 from api.restplus import api
@@ -10,11 +11,12 @@ def create_app():
     """Create flask app"""
     # app
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "m183_sso"
+    app.config["SECRET_KEY"] = "m183_app"
 
     with app.app_context():
         app.user = None
 
+    # API
     blueprint = Blueprint("api", __name__, url_prefix="/api")
     api.init_app(blueprint)
     app.register_blueprint(blueprint)

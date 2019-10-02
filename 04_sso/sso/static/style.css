@@ -1,5 +1,7 @@
 html, body {
-    font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    background-color: black;
+    color: #33FF00;
+    font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace;
     margin: 0;
     padding: 0;
     min-height: 100%;
@@ -10,18 +12,13 @@ body {
 }
 
 img {
-    width: 39px;
-    display: inline-block;
-}
-
-h1 {
-    display: inline-block;
-    font-size: 52px;
+    width: 300px;
+    margin-top: 100px;
 }
 
 input, button {
-    border: none;
-    border-bottom: 1px solid #BABABA;
+    background-color: black;
+    border: 2px solid #33FF00;
     outline: none;
     padding: 4px;
     margin-bottom: 12px;
@@ -50,4 +47,9 @@ iframe {
     height: 100%;
     z-index: -99;
     overflow: hidden;
+}
+
+.g-signin2 {
+    margin: auto;
+    width: 120px;
 }

@@ -6,10 +6,16 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+gunicorn = "*"
 flask = "*"
+flask-cors = "*"
+flask-restplus = "*"
+flask-login = "*"
+onetimepass = "*"
+requests = "*"
+pyqrcode = "*"
 google-api-python-client = "*"
 google-auth = "*"
-authlib = "*"
 
 [requires]
 python_version = "3.6"
