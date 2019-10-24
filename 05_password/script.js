@@ -16,9 +16,12 @@ onload = () => {
         let output = document.getElementById("output");
         if(!validatePassword(password.value)) {
             output.innerHTML = "Please consider the password requirements"
+            return
         }
-        let salt = "v4Z@HM6z^!zSii1"
-        let pepper = "@qU1t6wgc!oWXnn"
+        const salt = "v4Z@HM6z^!zSii1"
+        let hashedPassword = hashPassword(salt, password.value);
+
+        output.innerHTML = "Password Hash: " + hashedPassword;
     }
 
     password.onkeyup = function() {
@@ -28,6 +31,16 @@ onload = () => {
         } else {
             submit.disabled = true;
         }
+    }
+
+    function hashPassword(password, salt) {
+        const rounds = 10;
+        return dcodeIO.bcrypt.hashSync(combinePassword(salt, password), rounds);
+    }
+
+    function combinePassword(salt, password) {
+        const pepper = "@qU1t6wgc!oWXnn"
+        return pepper + sha256(password) + salt;
     }
 
     function validatePassword(password) {
@@ -42,7 +55,6 @@ onload = () => {
             }
         }
 
-        // Same as mail
         if(email.value == password) {
             setCssInvalid("mail")
             valid = false;
@@ -64,4 +76,3 @@ onload = () => {
         object.classList.add("invalid");
     }
 }
-
