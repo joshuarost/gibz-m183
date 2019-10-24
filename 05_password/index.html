@@ -1,0 +1,44 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <script src="script.js"></script>
+    <script src="https://unpkg.com/bcryptjs@2.4.3/dist/bcrypt.js"></script>
+    <title>Register</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>A very cool register site!</h1>
+        <div class="form">
+            <h3>Register</h3>
+            <form>
+                <label>E-mail</label>
+                <input id="email" type="text" placeholder="example@mail.com" required/>
+
+                <label>Password</label>
+                <input id="password" type="password" required/>
+
+                <button disabled type="submit" id="submit" >Register</button>
+            </form>
+        </div>
+        <div class="requirements">
+            <h3>Password requirements</h3>
+            <p><b>Must contain at least:</b></p>
+            <p id="length" class="invalid">10 characters</p>
+            <p id="letter" class="invalid">1 lowercase</p>
+            <p id="capital" class="invalid">1 capital letter</p>
+            <p id="number" class="invalid">1 number</p>
+            <p id="special" class="invalid">1 special character</p>
+            <p><b>Please consider:</b></p>
+            <p id="mail" class="valid">Should not be same as e-mail</p>
+            <p>No personal relation</p>
+        </div>
+        <div class="output">
+            <h3>Output</h3>
+            <p id="output"></p>
+        </div>
+    </div>
+</body>
+</html>
