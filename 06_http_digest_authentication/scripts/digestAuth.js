@@ -2,6 +2,7 @@
 const domain = 'https://m183.gibz-informatik.ch';
 const path = '/api/httpDigestAuth';
 const url = `${domain}${path}`;
+var nc = 1;
 
 /**
  * Gets fired when the login form is submitted.
@@ -86,27 +87,29 @@ function extractWwwAuthenticateHeaderData(response) {
 function generateDigestAuthenticationData(wwwAuthenticationHeaderData) {
     // Read credentials from input fields
     const [username, password] = getCredentials();
-
     /**
      * TODO: Implement this function!
      * Stick to the structure given by the comments...
      */
-    console.log(wwwAuthenticationHeaderData)
 
     // Generate values for 'nc' and 'cnonce'
     const cnonce = generateCnonce();
-    var nc = 1;
-    const realm = wwwAuthenticationHeaderData["realm"];
-    const nonce = wwwAuthenticationHeaderData["nonce"];
-    const qop = wwwAuthenticateHeaderData["qop"];
+    nc++;
+    var ncValue = ("00000000" + nc).slice(-8);
 
     // Generate hashes (usually called ha1, ha2 and response)
+    const realm = wwwAuthenticationHeaderData.realm;
     const ha1 = md5(`${username}:${realm}:${password}`);
-    const ha2 = md5(`get:${url}`)
-    const response = md5(`${ha1}:${nonce}:${}:${cnonce}:${qop}:${ha2}`)
 
-    // Return digest header data as an object containing all relevant properties
-    return {};
+    const method = "GET";
+    const ha2 = md5(`${method}:${path}`);
+
+    const nonce = wwwAuthenticationHeaderData.nonce;
+    const qop = wwwAuthenticationHeaderData.qop;
+    const algorithm = wwwAuthenticationHeaderData.algorithm;
+
+    const response = md5(`${ha1}:${nonce}:${ncValue}:${cnonce}:${qop}:${ha2}`)
+    return { username: username, realm: realm, nonce: nonce, uri: path, cnonce: cnonce, nc: ncValue, qop: qop, response: response, algorithm: algorithm};
 }
 
 function generateCnonce() {
