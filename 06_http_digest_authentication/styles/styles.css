@@ -1,0 +1,57 @@
+html {
+    background-color: black;
+    font-family: monospace;
+}
+
+#content {
+    max-width: 960px;
+    margin: 100px auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 250%;
+    font-weight: normal;
+    color: #11dc11;
+}
+
+form {
+    text-align: center;
+}
+
+input {
+    margin: 5px;
+    padding: 10px;
+    font-size: 20px;
+    background-color: black;
+    color: #11dc11;
+    border: 1px solid #11dc11;
+    font-family: monospace;
+    text-align: center;
+}
+
+button {
+    margin: 20px;
+    padding: 10px 40px;
+    font-size: 120%;
+    font-family: monospace;
+    background-color: black;
+    border-color: #11dc11;
+    color: #11dc11;
+}
+
+#output p {
+    padding: 20px;
+    text-align: center;
+    font-size: 300%;
+    color: white;
+    border: 4px dashed;
+}
+
+#output p.success {
+    border-color: #11dc11;
+}
+
+#output p.failure {
+    border-color: red;
+}

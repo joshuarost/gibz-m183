@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTTP Digest Authentication</title>
+
+    <link rel="stylesheet" href="styles/styles.css"/>
+    <script type="text/javascript" src="scripts/md5.js"></script>
+    <script type="text/javascript" src="scripts/digestAuth.js"></script>
+</head>
+<body>
+
+<div id="content">
+
+    <h1>HTTP Digest Authentication</h1>
+
+    <form id="loginForm">
+        <input type="text" name="username" placeholder="username"/>
+        <br />
+        <input type="password" name="password" placeholder="password"/>
+        <br />
+        <button type="submit">Load Secret Data</button>
+    </form>
+
+    <div id="output">
+        <!-- Retrieved data gets inserted here... -->
+    </div>
+
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', loadData);
+</script>
+
+</body>
+</html>
