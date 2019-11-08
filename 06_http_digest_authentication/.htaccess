@@ -1,0 +1,4 @@
+AuthType Digest
+AuthName "HTTP Digest Authentication"
+AuthUserFile /var/www/http_digest_auth/.htpasswd
+Require valid-user

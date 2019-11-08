@@ -87,10 +87,6 @@ function extractWwwAuthenticateHeaderData(response) {
 function generateDigestAuthenticationData(wwwAuthenticationHeaderData) {
     // Read credentials from input fields
     const [username, password] = getCredentials();
-    /**
-     * TODO: Implement this function!
-     * Stick to the structure given by the comments...
-     */
 
     // Generate values for 'nc' and 'cnonce'
     const cnonce = generateCnonce();
@@ -104,6 +100,7 @@ function generateDigestAuthenticationData(wwwAuthenticationHeaderData) {
     const method = "GET";
     const ha2 = md5(`${method}:${path}`);
 
+    // Create Response
     const nonce = wwwAuthenticationHeaderData.nonce;
     const qop = wwwAuthenticationHeaderData.qop;
     const algorithm = wwwAuthenticationHeaderData.algorithm;
