@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block header %}
+<img src="{{ url_for('static', filename='nsa_logo.svg') }}"/>
+<h1>N.S.A database<h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post" action="/login">
+    <label for="username">agent-id</label>
+    <input name="username" id="username" required>
+    <br />
+    <label for="password">password</label>
+    <input type="password" name="password" id="password" required>
+    <br />
+    <button type="submit">Login</button>
+  </form>
+{% endblock %}

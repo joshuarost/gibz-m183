@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+gunicorn = "*"
+gevent-websocket = "*"
+flask = "*"
+flask-restplus = "*"
+flask-cors = "*"
+flask-login = "*"
+bcrypt = "*"
+Flask-SQLAlchemy = "*"
+onetimepass = "*"
+pyqrcode = "*"
+
+[requires]
+python_version = "3.6"
+
+[scripts]
+serve = "gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 'app:create_app()' --reload"
