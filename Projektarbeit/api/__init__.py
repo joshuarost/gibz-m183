@@ -1,7 +1,2 @@
-from api.routes import generic_routes
-from api.auth import auth_routes
+import simweb.api.simloading  # noqa
 
-BLUEPRINTS = [generic_routes, auth_routes]
-
-# expose blueprints
-__all__ = ["BLUEPRINTS"]

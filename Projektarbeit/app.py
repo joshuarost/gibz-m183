@@ -15,10 +15,9 @@ def create_app():
     app.config["SECRET_KEY"] = "m183_Projektarbeit"
 
     # db
-
-
     with app.app_context():
         app.user = None
+        app.db = SQLAlchemy(app)
 
     # API
     blueprint = Blueprint("api", __name__, url_prefix="/")
