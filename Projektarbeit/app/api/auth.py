@@ -18,6 +18,7 @@ from flask_login import UserMixin, login_user, logout_user
 
 import onetimepass
 import pyqrcode
+from base64 import b64encode
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -29,6 +30,7 @@ def send_token():
     """
     """
     url = "https://europe-west1-gibz-informatik.cloudfunctions.net/send_2fa_sms"
+    auth = b64encode("19_20.m183.jrost".encode("utf-8")
 
 
 
