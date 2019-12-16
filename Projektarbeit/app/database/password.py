@@ -5,7 +5,7 @@ This modules implements functionalitys for save storing the password
 import bcrypt
 import crypt
 
-PEPPER = "$6$S9cvmZfrSawoXMJ4"
+PEPPER = b"$6$S9cvmZfrSawoXMJ4"
 
 def hash(password, times=100000):
     """

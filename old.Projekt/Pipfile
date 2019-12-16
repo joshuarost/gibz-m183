@@ -7,15 +7,18 @@ verify_ssl = true
 
 [packages]
 gunicorn = "*"
+gevent-websocket = "*"
 flask = "*"
-flask-cors = "*"
 flask-restplus = "*"
+flask-cors = "*"
 flask-login = "*"
+bcrypt = "*"
+Flask-SQLAlchemy = "*"
 onetimepass = "*"
 pyqrcode = "*"
 
 [requires]
-python_version = "3.5"
+python_version = "3.6"
 
 [scripts]
-serve = "gunicorn --bind 0.0.0.0:8000 'app.app:create_app()' --reload"
+serve = "gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 'app:create_app()' --reload"

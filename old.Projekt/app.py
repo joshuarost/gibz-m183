@@ -4,7 +4,6 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 from api.restplus import api
-from api import BLUEPRINTS
 from api.auth import User
 
 
@@ -12,15 +11,16 @@ def create_app():
     """Create flask app"""
     # app
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "m183_Projektarbeit"
+    app.secret_key = b"$6$jv5eab3l4lwXg7.3"
 
     # db
+    app.config["SQLALCHEMY_DATABASE_URI"] = "./data.db"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
     with app.app_context():
-        app.user = None
         app.db = SQLAlchemy(app)
 
     # API
-    blueprint = Blueprint("api", __name__, url_prefix="/")
+    blueprint = Blueprint("api", __name__, url_prefix="/api")
     api.init_app(blueprint)
     app.register_blueprint(blueprint)
 
