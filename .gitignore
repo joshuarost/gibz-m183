@@ -1,2 +1,8 @@
 # vim swap files
 *.swp
+
+# db files
+*.db
+
+# pipenv files
+*.lock
