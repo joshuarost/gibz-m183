@@ -1,10 +1,8 @@
 from flask import Flask, Blueprint, current_app
-from flask_cors import CORS
 from flask_login import LoginManager
 
 from app.api.restplus import api
-from app.api import BLUEPRINTS
-from app.api.auth import User
+from app.routes.auth import auth_routes
 
 
 def create_app():
@@ -14,15 +12,17 @@ def create_app():
     app.config["SECRET_KEY"] = "m183_2fa"
 
     with app.app_context():
-        app.user = None
+        pass
+
+    # Database
+
+    # Routes
+    app.register_blueprint(auth_routes)
 
     # API
     blueprint = Blueprint("api", __name__, url_prefix="/api")
     api.init_app(blueprint)
     app.register_blueprint(blueprint)
-
-    for blueprints in BLUEPRINTS:
-        app.register_blueprint(blueprints)
 
     login_manager = LoginManager()
     login_manager.login_view = "auth_routes.login"

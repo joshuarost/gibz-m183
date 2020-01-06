@@ -3,20 +3,22 @@ This modules implements functionalitys for save storing the password
 """
 
 import bcrypt
-import crypt
+from hashlib import sha256
 
 PEPPER = b"$6$S9cvmZfrSawoXMJ4"
 
-def hash(password, times=100000):
+
+def hash(password, rounds=25):
     """
     Hashes the given password with the given times or default
     """
-    pass
+    unified = trim(password + PEPPER)
+    return bcrypt.hashpw(unified, bcrypt.gensalt(rounds))
 
 
-def salt(password):
+def trim(password):
     """
-    Creates a salt, stores it in the user and uses it on
-    the provided password
+    Uses the sha256 hash to create a unified
+    password lenght
     """
-    salt = crypt.mksalt(crypt.METHOD_SHA512)
+    return sha256(password).digest()

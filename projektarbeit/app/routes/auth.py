@@ -2,7 +2,6 @@ import base64
 import os
 from pathlib import Path
 from io import BytesIO
-import request
 
 from flask import (
     render_template,
@@ -30,7 +29,7 @@ def send_token():
     """
     """
     url = "https://europe-west1-gibz-informatik.cloudfunctions.net/send_2fa_sms"
-    auth = b64encode("19_20.m183.jrost".encode("utf-8")
+    auth = b64encode("19_20.m183.jrost".encode("utf-8"))
 
 
 

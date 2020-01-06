@@ -7,15 +7,15 @@ verify_ssl = true
 
 [packages]
 gunicorn = "*"
+requests = "*"
 flask = "*"
-flask-cors = "*"
 flask-restplus = "*"
 flask-login = "*"
 onetimepass = "*"
 pyqrcode = "*"
 
 [requires]
-python_version = "3.5"
+python_version = "3.6"
 
 [scripts]
 serve = "gunicorn --bind 0.0.0.0:8000 'app.app:create_app()' --reload"
