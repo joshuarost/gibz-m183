@@ -1,3 +1,3 @@
 from flask_restplus import Api
 
-api = Api(version="0.1", title="M183 2FA API", description="API for 2FA")
+api = Api(version="1.0", title="M183 Projektarbeit", description="API for Projektarbeit")

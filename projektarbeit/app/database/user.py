@@ -15,3 +15,19 @@ class User(db.Model):
     phonenumber = db.Column(db.String(), nullable=False)
     role = db.Column(db.Integer, nullable=False)
     state = db.Column(db.Integer, nullable=False)
+
+
+def create_default_user():
+    """
+    Creates a set of default user in the database
+    Admin and User
+    """
+    pass
+
+
+def get_user(username):
+    """
+    Returns the user object or None if not found
+    """
+    return User.query.filter_by(username=username).first()
+

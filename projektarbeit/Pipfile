@@ -11,6 +11,8 @@ requests = "*"
 flask = "*"
 flask-restplus = "*"
 flask-login = "*"
+requests = "*"
+Flask-SQLAlchemy = "*"
 onetimepass = "*"
 pyqrcode = "*"
 
