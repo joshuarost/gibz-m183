@@ -15,22 +15,14 @@ from flask import (
 )
 from flask_login import UserMixin, login_user, logout_user
 
-import onetimepass
-import pyqrcode
 from base64 import b64encode
+
+from app.database.password import check_credentials
 
 auth_routes = Blueprint("auth_routes", __name__)
 
 SECRET_FILE = Path("./.secret")
 CREDENTIALS = {"username": "gipe", "password": "snowden"}
-
-
-def send_token():
-    """
-    """
-    url = "https://europe-west1-gibz-informatik.cloudfunctions.net/send_2fa_sms"
-    auth = b64encode("19_20.m183.jrost".encode("utf-8"))
-
 
 
 class User(UserMixin):
@@ -71,6 +63,9 @@ def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
+
+        check_credentials(username, password)
+
         if username == CREDENTIALS["username"] and password == CREDENTIALS["password"]:
             user = User(username)
             current_app.user = user
@@ -97,31 +92,4 @@ def verify():
         return render_template("verify.html", setup=not current_app.user.has_twofa())
 
     if request.method == "POST":
-        current_app.user.set_otp_secret()
-        token = request.form.get("token")
-        if onetimepass.valid_totp(token, current_app.user.otp_secret):
-            current_app.user.isverified = True
-            return redirect(url_for("generic_routes.database"))
-        return redirect(url_for("auth_routes.verify"))
-
-
-@auth_routes.route("/qrcode")
-def qrcode():
-    """Returns qr code for 2fa if user is loged in"""
-    if not current_app.user or current_app.user.has_twofa():
-        return redirect(url_for("auth_routes.verify"))
-
-    # render qrcode
-    url = pyqrcode.create(current_app.user.get_totp_uri())
-    stream = BytesIO()
-    url.svg(stream, scale=3)
-    return (
-        stream.getvalue(),
-        200,
-        {
-            "Content-Type": "image/svg+xml",
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-            "Pragma": "no-cache",
-            "Expires": "0",
-        },
-    )
+        pass

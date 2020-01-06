@@ -11,10 +11,8 @@ requests = "*"
 flask = "*"
 flask-restplus = "*"
 flask-login = "*"
-requests = "*"
 Flask-SQLAlchemy = "*"
-onetimepass = "*"
-pyqrcode = "*"
+bcrypt = "*"
 
 [requires]
 python_version = "3.6"

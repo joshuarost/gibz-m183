@@ -6,3 +6,6 @@
 
 # pipenv files
 *.lock
+
+# python binarys
+__pycache__/

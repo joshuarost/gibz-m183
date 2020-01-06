@@ -5,7 +5,7 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 from app.api.restplus import api
-from app.routes.auth import auth_routes
+from app.authentication.login import auth_routes
 
 
 def create_app():
@@ -15,7 +15,7 @@ def create_app():
     app.secret_key = secrets.token_urlsafe(16)
 
     # Database
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     with app.app_context():
