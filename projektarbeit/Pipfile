@@ -7,7 +7,6 @@ verify_ssl = true
 
 [packages]
 gunicorn = "*"
-requests = "*"
 flask = "*"
 flask-restplus = "*"
 flask-login = "*"

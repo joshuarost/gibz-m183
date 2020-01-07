@@ -17,7 +17,7 @@ from flask_login import UserMixin, login_user, logout_user
 
 from base64 import b64encode
 
-from app.database.password import check_credentials
+from app.user import check_credentials
 
 auth_routes = Blueprint("auth_routes", __name__)
 

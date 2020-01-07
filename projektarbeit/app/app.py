@@ -1,11 +1,12 @@
 import secrets
 
-from flask import Flask, Blueprint, current_app
-from flask_login import LoginManager
+from flask import Flask, Blueprint
+# from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
+from app.database import db
 from app.api.restplus import api
-from app.authentication.login import auth_routes
+from app.login import auth_routes
 
 
 def create_app():
@@ -17,12 +18,7 @@ def create_app():
     # Database
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-    with app.app_context():
-        # init DB
-        app.db = SQLAlchemy(app)
-        app.db.create_all()
-
+    db.init_app(app)
 
     # Routes
     app.register_blueprint(auth_routes)
@@ -31,6 +27,10 @@ def create_app():
     blueprint = Blueprint("api", __name__, url_prefix="/api")
     api.init_app(blueprint)
     app.register_blueprint(blueprint)
+
+    with app.app_context():
+        # init DB
+        db.create_all()
 
     # login_manager = LoginManager()
     # login_manager.login_view = "auth_routes.login"
