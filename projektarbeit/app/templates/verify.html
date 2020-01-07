@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block header %}
-<h1>verify</h1>
+<h1>Verify</h1>
 {% endblock %}
 
 {% block content %}
@@ -9,8 +9,4 @@
     <label for="token">token</label>
     <input name="token" id="token" required>
 </form>
-{% if setup %}
-<p>code to setup two factor authentication</p>
-<img class="qrcode" src="/qrcode"/>
-{% endif %}
 {% endblock %}

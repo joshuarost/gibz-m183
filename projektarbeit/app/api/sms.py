@@ -1,9 +1,11 @@
 import requests
+from base64 import b64encode
+from http import HTTPStatus
 
 URL = "https://europe-west1-gibz-informatik.cloudfunctions.net/send_2fa_sms"
 
 
-def request_token(recipient, length=8, flash=True):
+def send_token(recipient, length=6, flash=False):
     """
     """
     header = {
@@ -14,3 +16,7 @@ def request_token(recipient, length=8, flash=True):
     body = {"recipient": recipient, "length": length, "flash": flash}
 
     result = requests.post(URL, headers=header, json=body)
+
+    if result.status_code == HTTPStatus.OK:
+        return result.json()["token"]
+    return None

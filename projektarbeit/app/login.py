@@ -18,6 +18,8 @@ from flask_login import UserMixin, login_user, logout_user
 from base64 import b64encode
 
 from app.user import User, check_credentials, add_user
+from app.token import set_token, check_token
+from app.api.sms import send_token
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -63,13 +65,14 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        check_credentials(username, password)
-
-        if username == CREDENTIALS["username"] and password == CREDENTIALS["password"]:
-            user = User(username)
+        user = check_credentials(username, password)
+        if user:
+            token = send_token(user.phonenumber)
+            set_token(user.id, token)
             current_app.user = user
-            login_user(user)
             return redirect(url_for("auth_routes.verify"))
+            # user = User(username)
+            # login_user(user)
         # wrong login
         flash("Wrong username or password")
         return redirect(url_for("auth_routes.login"))
@@ -105,7 +108,10 @@ def verify():
     if request.method == "GET":
         if not current_app.user:
             return redirect(url_for("generic_routes.index"))
-        return render_template("verify.html", setup=not current_app.user.has_twofa())
+        return render_template("verify.html")
 
     if request.method == "POST":
-        pass
+        token = request.form.get("token")
+        result = check_token(current_app.user.id, token)
+        print(result)
+

@@ -17,7 +17,7 @@ def create_app():
     app.secret_key = secrets.token_urlsafe(16)
 
     # Database
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 
@@ -32,6 +32,7 @@ def create_app():
     with app.app_context():
         # init DB
         db.create_all()
+        app.user = None
 
     # login_manager = LoginManager()
     # login_manager.login_view = "auth_routes.login"
