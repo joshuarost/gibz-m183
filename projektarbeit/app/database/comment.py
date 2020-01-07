@@ -6,6 +6,7 @@ db = current_app.db
 class Comment(db.Model):
     """
     """
+
     id = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.Integer)
     title = db.Column(db.String(), nullable=False)

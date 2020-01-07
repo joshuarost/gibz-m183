@@ -1,6 +1,7 @@
 import secrets
 
 from flask import Flask, Blueprint
+
 # from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
@@ -38,7 +39,7 @@ def create_app():
 
     # @login_manager.user_loader
     # def load_user(user_id):
-        # if current_app.user and current_app.user.isverified:
-            # return current_app.user
+    # if current_app.user and current_app.user.isverified:
+    # return current_app.user
 
     return app

@@ -11,10 +11,6 @@ def request_token(recipient, length=8, flash=True):
         "Content-Type": "application/json",
     }
 
-    body = {
-        "recipient": recipient,
-        "length": length,
-        "flash": flash
-    }
+    body = {"recipient": recipient, "length": length, "flash": flash}
 
     result = requests.post(URL, headers=header, json=body)

@@ -17,7 +17,7 @@ from flask_login import UserMixin, login_user, logout_user
 
 from base64 import b64encode
 
-from app.user import check_credentials
+from app.user import User, check_credentials, add_user
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -33,7 +33,6 @@ class User(UserMixin):
         self.id = username
         self.otp_secret = base64.b32encode(os.urandom(10)).decode("utf-8")
         self.isverified = False
-
 
     def get_totp_uri(self):
         """Returns totp uri"""
@@ -74,6 +73,23 @@ def login():
         # wrong login
         flash("Wrong username or password")
         return redirect(url_for("auth_routes.login"))
+
+
+@auth_routes.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "GET":
+        return render_template("register.html")
+
+    if request.method == "POST":
+        name = request.form.get("name")
+        username = request.form.get("username")
+        password = request.form.get("password")
+        phonenumber = request.form.get("phonenumber")
+
+        if name and username and password and phonenumber:
+            user = add_user(name, username, password, phonenumber)
+            print(user)
+            return redirect(url_for("auth_routes.login"))
 
 
 @auth_routes.route("/logout", methods=["GET"])
