@@ -5,9 +5,9 @@ from flask import Flask, Blueprint
 # from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
-from app.database import db
+from app.database.db import db
 from app.api.restplus import api
-from app.login import auth_routes
+from app.routes.login import auth_routes
 
 
 def create_app():
@@ -32,7 +32,7 @@ def create_app():
     with app.app_context():
         # init DB
         db.create_all()
-        app.user = None
+        app.username = None
 
     # login_manager = LoginManager()
     # login_manager.login_view = "auth_routes.login"

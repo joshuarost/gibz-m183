@@ -1,8 +1,13 @@
+import requests
 from datetime import datetime
+from base64 import b64encode
+from http import HTTPStatus
 
-from app.database import db
+from app.database.db import db
+from app.database.user import get_user
 
-EXPIRATION = 300 # 5 minutes in seconds
+EXPIRATION = 300  # 5 minutes in seconds
+SMS_URL = "https://europe-west1-gibz-informatik.cloudfunctions.net/send_2fa_sms"
 
 
 class Token(db.Model):
@@ -12,10 +17,11 @@ class Token(db.Model):
     creation = db.Column(db.DateTime, nullable=False)
 
 
-def set_token(userid, token):
+def set_token(username, token):
     """
     Set the token for the given user
     """
+    userid = get_user(username).userid
     old_token = Token.query.filter_by(userid=userid).first()
 
     if old_token is None:
@@ -55,3 +61,18 @@ def check_token(userid, token):
     return saved_token == token
 
 
+def send_token(phonenumber, length=6, flash=False):
+    """
+    """
+    header = {
+        "Authorization": b64encode("19_20.M183.jrost".encode("utf-8")),
+        "Content-Type": "application/json",
+    }
+
+    body = {"recipient": phonenumber, "length": length, "flash": flash}
+
+    result = requests.post(SMS_URL, headers=header, json=body)
+
+    if result.status_code == HTTPStatus.OK:
+        return result.json()["token"]
+    return None

@@ -10,16 +10,15 @@ from flask import (
     redirect,
     url_for,
     flash,
-    current_app,
+    current_app as app,
     abort,
 )
 from flask_login import UserMixin, login_user, logout_user
 
 from base64 import b64encode
 
-from app.user import User, check_credentials, add_user
-from app.token import set_token, check_token
-from app.api.sms import send_token
+from app.database.user import User, check_credentials, add_user, get_user
+from app.database.token import set_token, check_token, send_token
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -65,17 +64,16 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        user = check_credentials(username, password)
-        if user:
-            token = send_token(user.phonenumber)
-            set_token(user.id, token)
-            current_app.user = user
-            return redirect(url_for("auth_routes.verify"))
-            # user = User(username)
-            # login_user(user)
-        # wrong login
-        flash("Wrong username or password")
-        return redirect(url_for("auth_routes.login"))
+        user, message = check_credentials(username, password)
+        if user is None:
+            # wrong login
+            flash(message)
+            return redirect(url_for("auth_routes.login"))
+
+        token = send_token(user.phonenumber)
+        set_token(user.id, token)
+        app.username = user.username
+        return redirect(url_for("auth_routes.verify"))
 
 
 @auth_routes.route("/register", methods=["GET", "POST"])
@@ -98,7 +96,7 @@ def register():
 @auth_routes.route("/logout", methods=["GET"])
 def logout():
     """Logouts the current user"""
-    current_app.user = None
+    app.user = None
     return redirect(url_for("generic_routes.index"))
 
 
@@ -106,12 +104,14 @@ def logout():
 def verify():
     """Verifys the given token with the local one"""
     if request.method == "GET":
-        if not current_app.user:
+        if not app.username:
             return redirect(url_for("generic_routes.index"))
         return render_template("verify.html")
 
     if request.method == "POST":
         token = request.form.get("token")
-        result = check_token(current_app.user.id, token)
-        print(result)
+        if check_token(app.username, token):
+            login_user(get_user(app.username))
+        return redirect(url_for("auth_routes.verify"))
+
 
