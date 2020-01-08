@@ -9,8 +9,8 @@ from flask import (
 )
 from flask_login import login_user, logout_user
 
-from app.database.user import check_credentials, add_user, get_user_by_username
-from app.database.token import set_token, check_token, send_token
+from app.database.user import check_credentials, add_user, get_user_by_username, is_username_available
+from app.database.token import set_token, check_token, send_token, delete_token
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -48,8 +48,12 @@ def verify():
         token = request.form.get("token")
         if check_token(app.username, token):
             login_user(get_user_by_username(app.username))
+            delete_token(app.username)
+
+            # remove user from session
             app.username = None
             return redirect(url_for("generic_routes.index"))
+
         return redirect(url_for("auth_routes.verify"))
 
 
@@ -59,15 +63,20 @@ def register():
         return render_template("register.html")
 
     if request.method == "POST":
-        name = request.form.get("name")
         username = request.form.get("username")
+        name = request.form.get("name")
         password = request.form.get("password")
         phonenumber = request.form.get("phonenumber")
 
         if name and username and password and phonenumber:
+            if not is_username_available(username):
+                flash("Username is already in user!")
+                return redirect(url_for("auth_routes.register"))
+
+            # Add user
             user = add_user(name, username, password, phonenumber)
-            print(user)
             return redirect(url_for("auth_routes.login"))
+
         return redirect(url_for("auth_routes.register"))
 
 

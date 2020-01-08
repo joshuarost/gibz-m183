@@ -85,12 +85,20 @@ def check_credentials(username, password):
     if not user:
         return None, "Username does not exists"
 
+    # check for blocked user
+    if user.state == 1:
+        return None, "This user has been previously blocked! Please ask an admin."
+
     trimed = trim_and_pepper(password)
 
     if bcrypt.checkpw(trimed, user.password):
+        # success, remove attempts
+        user.attempts = 0
+        db.session.commit()
+
         return user, None
 
-    # increment attempts
+    # Wrong Credentials, increment attempts
     message = increment_attempts(username)
     return None, message
 
@@ -100,12 +108,13 @@ def increment_attempts(username):
     Increments attempts and checks if user should be blocked
     """
     user = User.query.filter_by(username=username).first()
-    user.attempts + 1
+    user.attempts = user.attempts + 1
 
-    if user.attempts < MAX_ATTEMPTS:
+    if user.attempts >= MAX_ATTEMPTS:
         # User gets blocked
         user.attempts = 0
         user.state = 1
+        db.session.commit()
         return "Your account has been blocked. Please contact an admin"
 
     db.session.commit()
@@ -122,3 +131,23 @@ def get_attempts(username):
     if user is None:
         return None
     return user.attempts
+
+
+def is_admin(username):
+    """
+    Checks if prvided user is an admin
+    """
+    user = get_user_by_username(username)
+    if user.role == 1:
+        return True
+    return False
+
+
+def is_username_available(username):
+    """
+    Checks if the given username already exists
+    """
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        return True
+    return False

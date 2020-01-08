@@ -72,3 +72,18 @@ def send_token(phonenumber, length=6, flash=False):
     if result.status_code == HTTPStatus.OK:
         return result.json()["token"]
     return None
+
+
+def delete_token(username):
+    """
+    Delete if existing the token of the provided user
+
+    nothing happens if the token does not exist because
+    the same effect as deleting has occurd
+    """
+    userid = get_user_by_username(username).id
+    saved_token = Token.query.filter_by(userid=userid).first()
+
+    if saved_token:
+        db.session.delete(saved_token)
+        db.session.commit()
