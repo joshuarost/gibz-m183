@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     """
     User class for the database including all requred fields
     """
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     username = db.Column(db.String(), unique=True, nullable=False)
@@ -24,18 +25,18 @@ class User(db.Model, UserMixin):
     attempts = db.Column(db.Integer, nullable=False)
 
 
-def get_user(username):
+def get_user_by_username(username):
     """
-    Get the userid with the provided username
+    Get the user with the provided username
+    """
+    return User.query.filter_by(username=username).first()
 
-    Returns:
-        None: If user not exists
-        Id: if exists
+
+def get_user_by_id(userid):
     """
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        return None
-    return user
+    Get the user with the provided username
+    """
+    return User.query.filter_by(id=userid).first()
 
 
 def add_user(name, username, password, phonenumber, role=0, state=0):
@@ -108,7 +109,9 @@ def increment_attempts(username):
         return "Your account has been blocked. Please contact an admin"
 
     db.session.commit()
-    return "Passwort incorrect! You have {} attempts left.".format(MAX_ATTEMPTS - user.attempts)
+    return "Passwort incorrect! You have {} attempts left.".format(
+        MAX_ATTEMPTS - user.attempts
+    )
 
 
 def get_attempts(username):

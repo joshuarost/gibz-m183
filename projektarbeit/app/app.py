@@ -2,12 +2,13 @@ import secrets
 
 from flask import Flask, Blueprint
 
-# from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 from app.database.db import db
 from app.api.restplus import api
-from app.routes.login import auth_routes
+from app.database.user import get_user_by_id
+from app.routes.auth import auth_routes
+from app.routes.generic import generic_routes
 
 
 def create_app():
@@ -23,6 +24,7 @@ def create_app():
 
     # Routes
     app.register_blueprint(auth_routes)
+    app.register_blueprint(generic_routes)
 
     # API
     blueprint = Blueprint("api", __name__, url_prefix="/api")
@@ -34,13 +36,13 @@ def create_app():
         db.create_all()
         app.username = None
 
-    # login_manager = LoginManager()
-    # login_manager.login_view = "auth_routes.login"
-    # login_manager.init_app(app)
+    # Create login manager
+    login_manager = LoginManager()
+    login_manager.login_view = "auth_routes.login"
+    login_manager.init_app(app)
 
-    # @login_manager.user_loader
-    # def load_user(user_id):
-    # if current_app.user and current_app.user.isverified:
-    # return current_app.user
+    @login_manager.user_loader
+    def load_user(userid):
+        return get_user_by_id(userid)
 
     return app

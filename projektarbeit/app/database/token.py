@@ -4,7 +4,7 @@ from base64 import b64encode
 from http import HTTPStatus
 
 from app.database.db import db
-from app.database.user import get_user
+from app.database.user import get_user_by_username
 
 EXPIRATION = 300  # 5 minutes in seconds
 SMS_URL = "https://europe-west1-gibz-informatik.cloudfunctions.net/send_2fa_sms"
@@ -17,11 +17,10 @@ class Token(db.Model):
     creation = db.Column(db.DateTime, nullable=False)
 
 
-def set_token(username, token):
+def set_token(userid, token):
     """
     Set the token for the given user
     """
-    userid = get_user(username).userid
     old_token = Token.query.filter_by(userid=userid).first()
 
     if old_token is None:
@@ -38,27 +37,24 @@ def add_toke(userid, token):
     """
     Adds a new token to the db
     """
-    new_token = Token(
-        userid=userid,
-        token=token,
-        creation=datetime.now()
-    )
+    new_token = Token(userid=userid, token=token, creation=datetime.now())
     db.session.add(new_token)
     db.session.commit()
     return new_token
 
 
-def check_token(userid, token):
+def check_token(username, token):
     """
     Checkts if the token is still valid and matches
     """
+    userid = get_user_by_username(username).id
     saved_token = Token.query.filter_by(userid=userid).first()
     if saved_token is None:
         return False
 
     if (datetime.now() - saved_token.creation).seconds > 300:
         return False
-    return saved_token == token
+    return saved_token.token == token
 
 
 def send_token(phonenumber, length=6, flash=False):
