@@ -11,19 +11,6 @@ onload = () => {
         {id: "special", regex: /[!@#/$%^&*(),.?":{}|<>]/g},
     ];
 
-    submit.onclick = function(e) {
-        e.preventDefault();
-        let output = document.getElementById("output");
-        if(!validatePassword(password.value)) {
-            output.innerHTML = "Please consider the password requirements"
-            return
-        }
-        const salt = "v4Z@HM6z^!zSii1"
-        let hashedPassword = hashPassword(salt, password.value);
-
-        output.innerHTML = "Password Hash: " + hashedPassword;
-    }
-
     password.onkeyup = function() {
         let valid = validatePassword(password.value);
         if(valid) {
@@ -31,16 +18,6 @@ onload = () => {
         } else {
             submit.disabled = true;
         }
-    }
-
-    function hashPassword(password, salt) {
-        const rounds = 10;
-        return dcodeIO.bcrypt.hashSync(combinePassword(salt, password), rounds);
-    }
-
-    function combinePassword(salt, password) {
-        const pepper = "@qU1t6wgc!oWXnn"
-        return pepper + sha256(password) + salt;
     }
 
     function validatePassword(password) {

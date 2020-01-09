@@ -2,6 +2,7 @@ from flask import render_template, Blueprint, redirect, url_for
 from flask_login import login_required, current_user
 
 from app.database.user import is_admin
+from app.database.post import get_posts_by_userid, get_all_posts
 
 blog_routes = Blueprint("blog_routes", __name__)
 
@@ -17,10 +18,12 @@ def dashboard():
 @blog_routes.route("/user/dashboard")
 @login_required
 def user_dashboard():
-    return render_template("dashboard.html")
+    posts = get_posts_by_userid(current_user.id)
+    return render_template("dashboard.html", posts = posts)
 
 
 @blog_routes.route("/admin/dashboard")
 @login_required
 def admin_dashboard():
-    return render_template("dashboard.html")
+    posts = get_all_posts()
+    return render_template("dashboard.html", posts = posts)

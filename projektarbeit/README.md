@@ -7,7 +7,11 @@
 ## Credentials:
 **Admin**
 - Username: Admin
-- Password: $3creT
+- Password: Pa$$word2000
+
+**User**
+- Username: Mock
+- Password: $ecreT3000
 
 ## Getroffene Entscheidungen
 ### Passwort

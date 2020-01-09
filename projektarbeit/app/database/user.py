@@ -1,6 +1,7 @@
 import bcrypt
 from hashlib import sha256
 from base64 import b64encode
+from uuid import uuid4
 
 from flask_login import UserMixin
 
@@ -15,7 +16,7 @@ class User(db.Model, UserMixin):
     User class for the database including all requred fields
     """
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(), primary_key=True, default=lambda: str(uuid4()))
     name = db.Column(db.String(), nullable=False)
     username = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
