@@ -1,12 +1,26 @@
 {% extends 'layout.html' %}
 
 {% block header %}
-  <h1>Dashboard</h1>
-  <form method="get" action="/logout">
-    <button type="submit" href="/logout">logout</button>
-  </form>
+
+{% if is_admin %}
+<h1>Admin Dashboard {{is_admin}}, {{username}}</h1>
+<h3>All Posts</h3>
+{% else %}
+<h1>Dashboard, {{username}}</h1>
+<h3>Your Posts</h3>
+{% endif %}
 {% endblock %}
 
 {% block content %}
-<p>Placeholder</p>
+{% for post in posts %}
+<a href="/post/{{post.id}}">
+<div>
+  <label>{{ post.title }}</label>
+  <label>{{ post.content }}</label>
+</div>
+<a>
+{% endfor %}
+<form method="get" action="/logout">
+<button type="submit" href="/logout">logout</button>
+</form>
 {% endblock %}

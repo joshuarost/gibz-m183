@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block header %}
+
+<h1>A weird Blog, Welcome!</h1>
+{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+<a href="/post/{{post.id}}">
+<div>
+    <h4>{{ post.title }} by {{post.userid}}</h4>
+    <p>{{ post.content }}</p>
+    <hr />
+</div>
+</a>
+{% endfor %}
+{% endblock %}

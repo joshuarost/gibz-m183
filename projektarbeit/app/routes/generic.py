@@ -10,4 +10,5 @@ generic_routes = Blueprint("generic_routes", __name__)
 def index():
     if current_user.is_authenticated:
         return redirect(url_for("blog_routes.dashboard"))
-    return render_template("login.html")
+    # return render_template("login.html")
+    return redirect(url_for("blog_routes.home"))

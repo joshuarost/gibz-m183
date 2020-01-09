@@ -49,7 +49,6 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(userid):
-        print(userid)
         return get_user_by_id(userid)
 
     return app

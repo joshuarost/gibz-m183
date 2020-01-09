@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from app.database.db import db
+from app.database.user import get_user_by_id
 
 
 class Post(db.Model):
@@ -41,3 +42,22 @@ def get_all_posts():
     Returns all posts
     """
     return Post.query.all()
+
+
+def get_all_public_posts():
+    """
+    Returns all public posts for the home page
+    """
+    posts = Post.query.filter_by(status=0).all()
+
+    # replace userid with the username for showing
+    for post in posts:
+        post.userid = get_user_by_id(post.userid).username
+    return posts
+
+
+def get_post_by_id(postid):
+    """
+    Returns the post of the provided id
+    """
+    return Post.query.filter_by(id=postid).first()
