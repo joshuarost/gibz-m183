@@ -1,14 +1,15 @@
 import secrets
 
 from flask import Flask, Blueprint
-
 from flask_login import LoginManager
+from flask_talisman import Talisman
 
 from app.database.db import db
 from app.api.restplus import api
 from app.database.user import get_user_by_id
 from app.routes.auth import auth_routes
 from app.routes.generic import generic_routes
+from app.routes.blog import blog_routes
 
 
 def create_app():
@@ -16,6 +17,10 @@ def create_app():
     # app
     app = Flask(__name__)
     app.secret_key = secrets.token_urlsafe(16)
+
+    # setup XSS and Clickjacking security
+    csp = {'default-src': '\'self\''}
+    Talisman(app, content_security_policy={}, force_https=False)
 
     # Database
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
@@ -25,6 +30,7 @@ def create_app():
     # Routes
     app.register_blueprint(auth_routes)
     app.register_blueprint(generic_routes)
+    app.register_blueprint(blog_routes)
 
     # API
     blueprint = Blueprint("api", __name__, url_prefix="/api")
@@ -43,6 +49,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(userid):
+        print(userid)
         return get_user_by_id(userid)
 
     return app

@@ -48,11 +48,12 @@ def verify():
         token = request.form.get("token")
         if check_token(app.username, token):
             login_user(get_user_by_username(app.username))
+            print("user loged in")
             delete_token(app.username)
 
             # remove user from session
             app.username = None
-            return redirect(url_for("generic_routes.index"))
+            return redirect(url_for("blog_routes.dashboard"))
 
         return redirect(url_for("auth_routes.verify"))
 
