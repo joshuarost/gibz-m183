@@ -19,8 +19,10 @@ def create_app():
     app.secret_key = secrets.token_urlsafe(16)
 
     # setup XSS and Clickjacking security
-    # csp = {'default-src': '\'self\''}
-    # Talisman(app, content_security_policy={}, force_https=False)
+    csp = {"default-src": "'self'"}
+    Talisman(
+        app, content_security_policy=csp, force_https=False, session_cookie_secure=False
+    )
 
     # Database
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"

@@ -9,7 +9,12 @@ from flask import (
 )
 from flask_login import login_user, logout_user
 
-from app.database.user import check_credentials, add_user, get_user_by_username, is_username_available
+from app.database.user import (
+    check_credentials,
+    add_user,
+    get_user_by_username,
+    is_username_available,
+)
 from app.database.token import set_token, check_token, send_token, delete_token
 
 auth_routes = Blueprint("auth_routes", __name__)
@@ -48,7 +53,6 @@ def verify():
         token = request.form.get("token")
         if check_token(app.username, token):
             login_user(get_user_by_username(app.username))
-            print("user loged in")
             delete_token(app.username)
 
             # remove user from session
