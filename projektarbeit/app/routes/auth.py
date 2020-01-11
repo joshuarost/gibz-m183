@@ -89,4 +89,4 @@ def register():
 def logout():
     """Logouts the current user"""
     logout_user()
-    return redirect(url_for("generic_routes.index"))
+    return redirect(url_for("auth_routes.login_user"))

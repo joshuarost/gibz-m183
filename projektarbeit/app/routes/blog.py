@@ -1,8 +1,9 @@
 from flask import render_template, Blueprint, redirect, url_for, request
 from flask_login import login_required, current_user
 
+from app.routes.generic import admin_required
 from app.database.user import is_admin
-from app.database.comment import add_comment
+from app.database.comment import add_comment, get_all_comments_by_postid
 from app.database.post import (
     get_posts_by_userid,
     get_all_posts,
@@ -32,6 +33,7 @@ def user_dashboard():
 
 @blog_routes.route("/admin/dashboard", methods=["GET"])
 @login_required
+@admin_required
 def admin_dashboard():
     posts = get_all_posts()
     return render_template(
@@ -48,10 +50,20 @@ def home():
 @blog_routes.route("/post/<postid>", methods=["GET"])
 def post(postid):
     post = get_post_by_id(postid)
+    if post is None:
+        return redirect(url_for("blog_routes.home"))
+
+    # Get comments
+    comments = get_all_comments_by_postid(postid)
 
     # Check if post is public
     if post.status == 0:
-        return render_template("post.html", post=post, is_loggedIn=current_user.is_authenticated)
+        return render_template(
+            "post.html",
+            post=post,
+            comments=comments,
+            is_loggedIn=current_user.is_authenticated,
+        )
     return redirect(url_for("blog_routes.home"))
 
 
@@ -64,3 +76,4 @@ def comment():
 
     if userid and postid and comment:
         comment = add_comment(userid, postid, comment)
+    return redirect(url_for("blog_routes.post", postid=postid))

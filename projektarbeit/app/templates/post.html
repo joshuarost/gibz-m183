@@ -11,11 +11,16 @@
 {% block content %}
 <h4>Comments</h4>
 {% for comment in comments %}
+<div>
+    <p>{{comment.userid}}: {{comment.comment}}</p>
+</div>
+{% endfor %}
 
 {% if is_loggedIn %}
 <form method="post" action="/comment">
     <label for="comment">Comment:</label>
-    <input name="comment" id="comment" required>
+    <input name="comment" type="text" id="comment" maxlength="200" required>
+    <input name="postid" type="hidden" id="postid" value="{{post.id}}">
     <button type="submit">Comment!</button>
 </form>
 {% endif %}
