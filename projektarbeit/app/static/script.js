@@ -1,6 +1,20 @@
 onload = () => {
     let password = document.getElementById("password");
     let submit = document.getElementById("submit");
+
+    let signUp = document.getElementById("signUp");
+    let signIn = document.getElementById("signIn");
+    let container = document.getElementById("container");
+
+    signUp.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signIn.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+
+
     submit.disabled = true;
 
     let requirements = [
@@ -45,4 +59,5 @@ onload = () => {
         object.classList.remove("valid");
         object.classList.add("invalid");
     }
+
 }

@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 
-{% block header %}
-<h1>Verify</h1>
-{% endblock %}
-
 {% block content %}
+
+<div class="container">
 <form method="post" action="/verify">
-    <label for="token">token</label>
-    <input name="token" id="token" required>
+    <h1>Enter your received token</h1>
+    <input name="token" placeholder="Token" id="token" required>
+    <button type="submit">Verify</button>
 </form>
+</div>
 {% endblock %}

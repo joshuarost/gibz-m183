@@ -1,18 +1,46 @@
 {% extends 'layout.html' %}
 
-{% block header %}
-<h1>Login<h1>
+{% block script %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-  <form method="post" action="/login">
-    <label for="username">Username</label>
-    <input name="username" id="username" required>
-    <br />
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required>
-    <br />
-    <button type="submit">Login</button>
-  </form>
-  <a href="/register">New here? Register now!</a>
+
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form method="post" action="/register">
+            <h1>Create Account</h1>
+            <input name="name" id="name" placeholder="Full Name" required>
+            <input name="username" id="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" id="password" required>
+            <input name="phonenumber" id="phonenumber" placeholder="Phonenumber" required>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form method="post" action="/login">
+            <h1>Sign in</h1>
+            <input placeholder="Username" name="username" id="username" required>
+            <input placeholder="Password" type="password" name="password" id="password" required>
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button class="ghost" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal details and start journey with us</p>
+                <button class="ghost" id="signUp">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
+

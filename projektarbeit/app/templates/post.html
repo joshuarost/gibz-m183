@@ -1,27 +1,37 @@
 {% extends 'layout.html' %}
-
-{% block header %}
-
-<h1>{{ post.title }}</h1>
-<h3>{{ post.content }}</h3>
-<hr />
-
-{% endblock %}
-
 {% block content %}
-<h4>Comments</h4>
-{% for comment in comments %}
-<div>
-    <p>{{comment.userid}}: {{comment.comment}}</p>
-</div>
-{% endfor %}
 
-{% if is_loggedIn %}
-<form method="post" action="/comment">
-    <label for="comment">Comment:</label>
-    <input name="comment" type="text" id="comment" maxlength="200" required>
-    <input name="postid" type="hidden" id="postid" value="{{post.id}}">
-    <button type="submit">Comment!</button>
-</form>
-{% endif %}
+<div class="container right-panel-active">
+    {% if is_loggedIn %}
+    <div class="form-container sign-up-container">
+        <form method="post" action="/comment">
+            <h1>Say something</h1>
+            <input name="comment" Placeholder="Comment" type="text" id="comment" maxlength="200" required>
+            <input name="postid" type="hidden" id="postid" value="{{post.id}}">
+            <button type="submit">Comment</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="form-container overlay-panel sign-up-container">
+            <h1>Sign in to say something!</h1>
+            <a href="/login">
+            <button>Sign In</button>
+            </a>
+    </div>
+    {% endif %}
+
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>{{ post.title }}</h1>
+                <p>{{ post.content }}</p>
+
+                <h4>Comments</h4>
+                {% for comment in comments %}
+                <p class="comment"><span>{{comment.userid}}</span> says {{comment.comment}}</p>
+                {% endfor %}
+            </div>
+         </div>
+    </div>
+</div>
 {% endblock %}

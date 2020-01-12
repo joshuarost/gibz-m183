@@ -1,18 +1,26 @@
 {% extends 'layout.html' %}
 
-{% block header %}
-
-<h1>A weird Blog, Welcome!</h1>
-{% endblock %}
-
 {% block content %}
+
+<h2>Just a blog!</h2>
+
 {% for post in posts %}
-<a href="/post/{{post.id}}">
-<div>
-    <h4>{{ post.title }} by {{post.userid}}</h4>
+
+<div class="container post">
+    <h3>{{ post.title }} <span>- {{post.userid}}</span></h3>
     <p>{{ post.content }}</p>
-    <hr />
+    <a href="/post/{{post.id}}">
+        <button>Read more!</button>
+    </a>
 </div>
-</a>
+
 {% endfor %}
+
+<div class="container login-box">
+    <a href="/login">
+    <button>Sign In</button>
+    </a>
+</div>
+
+
 {% endblock %}
