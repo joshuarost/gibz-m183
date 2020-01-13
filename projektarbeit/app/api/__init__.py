@@ -1,1 +1,1 @@
-# import app.api.foo  # noqa
+import app.api.post  # noqa
