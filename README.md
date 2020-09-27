@@ -1,5 +1,5 @@
 # Module 183
-A repository created for the Swiss application engineering module 153.
+A repository created for the Swiss application engineering module 183.
 
 ## Aufgaben
 | Nr.  | Titel  | Beschreibung  | Link  |
