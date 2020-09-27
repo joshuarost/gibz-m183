@@ -1,5 +1,5 @@
-# m183
-**A Josh Rost school project**
+# Module 183
+A repository created for the Swiss application engineering module 153.
 
 ## Aufgaben
 | Nr.  | Titel  | Beschreibung  | Link  |
